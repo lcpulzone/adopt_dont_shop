@@ -39,7 +39,7 @@ RSpec.describe 'application creation' do
       fill_in 'Zip code', with: "#{@application_1.zip_code}"
       click_button 'Save'
 
-      expect(current_path).to eq("/applications/#{@application_1.id}")
+      expect(current_path).to eq("/applications/#{Application.last.id}")
       expect(page).to have_content("#{@application_1.name}")
     end
   end
