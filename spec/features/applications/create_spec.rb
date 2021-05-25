@@ -24,7 +24,7 @@ RSpec.describe 'application creation' do
     end
   end
 
-  context 'the application create' do
+  context 'application creation' do
     it 'creates the application and redirects to the applicaiton show page' do
       visit '/applications/new'
 
@@ -33,10 +33,20 @@ RSpec.describe 'application creation' do
       fill_in 'City', with: "Sweets"
       fill_in 'State', with: "Oregon"
       fill_in 'Zip code', with: "12345"
-      click_button 'Save'
+      click_button 'commit'
 
       expect(current_path).to eq("/applications/#{Application.last.id}")
       expect(page).to have_content("Madeline Sibley")
+    end
+  end
+
+  context 'invalid application' do
+    it 'gives an error message when application not filled out correctly' do
+      visit '/applications/new'
+
+      click_button 'commit'
+      
+      expect(page).to have_content("Error: Name can't be blank, Street address can't be blank, City can't be blank, State can't be blank, Zip code is not a number")
     end
   end
 end
