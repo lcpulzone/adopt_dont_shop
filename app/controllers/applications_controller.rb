@@ -4,10 +4,11 @@ class ApplicationsController < ApplicationController
   end
 
   def show
-    @application = Application.find(app_params[:id])
+    @application = Application.find(params[:id])
   end
 
   def new
+    @application = Application.new
   end
 
   def create
@@ -23,6 +24,6 @@ class ApplicationsController < ApplicationController
   private
 
   def app_params
-    params.permit(:id, :name, :street_address, :city, :state, :zip_code)
+    params.require(:application).permit(:id, :name, :street_address, :city, :state, :zip_code)
   end
 end
