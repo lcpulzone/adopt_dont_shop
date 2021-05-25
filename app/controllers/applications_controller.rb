@@ -12,7 +12,6 @@ class ApplicationsController < ApplicationController
 
   def create
     application = Application.new(app_params)
-
     if application.save
       redirect_to "/applications/#{application.id}"
     else

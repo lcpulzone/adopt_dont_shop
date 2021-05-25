@@ -6,10 +6,6 @@ RSpec.describe 'application creation' do
     @application_2 = Application.create!(name: 'Annie Pulzone', street_address: '123 Lava LN', city: 'Pilot', state: 'Oregon', zip_code: 97703)
   end
 
-  after :each do
-    Application.destroy_all
-  end
-
   context 'application set up' do
     it 'has a welcome message' do
       visit '/applications/new'
@@ -32,15 +28,15 @@ RSpec.describe 'application creation' do
     it 'creates the application and redirects to the applicaiton show page' do
       visit '/applications/new'
 
-      fill_in 'Name', with: "#{@application_1.name}"
-      fill_in 'Street address', with: "#{@application_1.street_address}"
-      fill_in 'City', with: "#{@application_1.city}"
-      fill_in 'State', with: "#{@application_1.state}"
-      fill_in 'Zip code', with: "#{@application_1.zip_code}"
+      fill_in 'Name', with: "Madeline Sibley"
+      fill_in 'Street address', with: "789 Sugar LN"
+      fill_in 'City', with: "Sweets"
+      fill_in 'State', with: "Oregon"
+      fill_in 'Zip code', with: "12345"
       click_button 'Save'
 
       expect(current_path).to eq("/applications/#{Application.last.id}")
-      expect(page).to have_content("#{@application_1.name}")
+      expect(page).to have_content("Madeline Sibley")
     end
   end
 end
