@@ -15,10 +15,22 @@ RSpec.describe 'application show page' do
       expect(page).to have_content("#{@application_1.city}, #{@application_1.state} #{@application_1.zip_code}")
     end
 
-    it 'shows a description of applicants ability to care for a pet' do
+    xit 'shows a search box' do
       visit "/applications/#{@application_1.id}"
 
-      expect(page).to have_textarea_field()
+      click_button 'search'
+
+      expect(current_path).to eq(visit "/applications/#{@application_1.id}")
+    end
+
+    xit 'shows a description of applicants ability to care for a pet' do
+      visit "/applications/#{@application_1.id}"
+
+      fill_in 'description', with: 'I would be an awesome owner'
+
+      click_button 'commit'
+
+      expect(page).to have_content('I would be an awesome owner')
     end
   end
 end
