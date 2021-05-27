@@ -46,16 +46,29 @@ RSpec.describe 'application show page' do
       expect(page).to have_button('Adopt this Pet')
     end
 
-    it 'shows a description of applicants ability to care for a pet' do
+    it 'does submit an application if a description is written' do
       @application_1.pets << @pet_1
 
       visit "/applications/#{@application_1.id}"
 
       within("section#applicant_description") do
         expect(page).to have_button('Submit Application')
-        click_button 'Submit Application'
       end
-        expect(page).to_not have_button('Submit Application')
+
+      fill_in 'description', with: 'I love animials'
+      click_button 'Submit Application'
+
+      expect(page).to_not have_button('Submit Application')
+    end
+
+    it 'does not submit if description is left empty' do
+      @application_1.pets << @pet_1
+
+      visit "/applications/#{@application_1.id}"
+
+      click_button 'Submit Application'
+
+      expect(page).to have_button('Submit Application')
     end
   end
 end
