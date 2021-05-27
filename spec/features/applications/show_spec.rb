@@ -43,10 +43,7 @@ RSpec.describe 'application show page' do
       click_button 'Search'
 
       expect(page).to have_content("#{@pet_2.name}")
-
-      # click_button 'Adopt this Pet'
-      #
-      # expect(page).to have_button('Adopt this Pet')
+      expect(page).to have_button('Adopt this Pet')
     end
 
     it 'shows a description of applicants ability to care for a pet' do
