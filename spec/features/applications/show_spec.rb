@@ -4,6 +4,11 @@ RSpec.describe 'application show page' do
   before :each do
     @application_1 = Application.create!(name: 'Matt Wesley', street_address: '456 Orange RD', city: 'Vanilla', state: 'Oregon', zip_code: 97701)
     @application_2 = Application.create!(name: 'Annie Pulzone', street_address: '123 Lava LN', city: 'Sherbert', state: 'Oregon', zip_code: 97703)
+
+    @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+
+    @pet_1 = Pet.create(adoptable: true, age: 1, breed: 'sphynx', name: 'Lucille Bald', shelter_id: @shelter.id)
+    @pet_2 = Pet.create(adoptable: true, age: 3, breed: 'doberman', name: 'Lobster', shelter_id: @shelter.id)
   end
 
   context 'applicant' do
@@ -20,23 +25,35 @@ RSpec.describe 'application show page' do
 
       expect(page).to have_content("#{@application_1.status}")
     end
+  end
 
-    xit 'shows a search box' do
+  context 'pets on applications' do
+    it 'shows a search box' do
       visit "/applications/#{@application_1.id}"
 
-      click_button 'search'
+      click_button 'Search'
 
-      expect(current_path).to eq(visit "/applications/#{@application_1.id}")
+      expect(page).to have_button('Search')
     end
 
-    xit 'shows a description of applicants ability to care for a pet' do
+    it 'has a button to adopt a pet' do
       visit "/applications/#{@application_1.id}"
 
-      fill_in 'description', with: 'I would be an awesome owner'
+      fill_in 'Search', with: "#{@pet_2.name}"
+      click_button 'Search'
 
-      click_button 'commit'
+      expect(page).to have_content("#{@pet_2.name}")
+      expect(page).to have_button('Adopt this Pet')
+    end
 
-      expect(page).to have_content('I would be an awesome owner')
+    it 'shows a description of applicants ability to care for a pet' do
+      @application_1.pets << @pet_1
+      
+      visit "/applications/#{@application_1.id}"
+
+      click_button 'Submit Application'
+
+      expect(page).to have_button('Submit Application')
     end
   end
 end

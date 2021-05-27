@@ -1,22 +1,43 @@
 <h1><%= @application.name %></h1>
-<h3><%= @application.street_address %></h3>
-<h3><%= @application.city %>, <%= @application.state %> <%= @application.zip_code %></h3>
-<h3>Application Status: <%= @application.status %></h3>
+<p>Address: <br><%= @application.street_address %><br><%= @application.city %>, <%= @application.state %> <%= @application.zip_code%></p>
+<p>Why I would be a great pet owner: <br><%= @application.description %></p>
+<p>Application Status: <br> -<%= @application.status %></p>
 
-<h2>Add a Pet to this Application!</h2>
-<%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
-  <%= f.label :search %>
-  <%= f.text_field :search %>
-  <%= f.submit "Search" %>
+<% @pets.each do |pet| %>
+<%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
 <% end %>
 
 <br>
 
-<h2>Why I would make a good home for a pet:</h2>
-<%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
-  <%= f.label :description %>
+<% unless @application.status == "Pending" %>
+  <h2>Add a Pet to this Application!</h2>
+  <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
+    <%= f.label :search %>
+    <br>
+    <%= f.text_field :search %>
+    <br>
+    <%= f.submit "Search" %>
+  <% end %>
+
   <br>
-  <%= f.text_area :description, size: '30x6' %>
-  <br>
-  <%= f.submit %>
+
+  <% if !@searched_pets.nil? then %>
+    <% @searched_pets.each do |pet| %>
+      <%= pet.name %><%= button_to 'Adopt this Pet', "/pet_applications", method: :post, local: true, params: {application: @application.id, pet: pet.id} %>
+    <% end %>
+  <% end %>
+
+<br>
+
+  <% if @pets.length > 0 %>
+    <h2>Why I would make a good home for a pet:</h2>
+    <%= form_with url: "/applications/#{@application.id}", method: :post, local: true do |f| %>
+      <%= f.label :description %>
+      <br>
+      <%= f.text_area :description, size: '30x6' %>
+      <br>
+      <%= f.submit "Submit Application"%>
+    <% end %>
+  <% end %>
+
 <% end %>
