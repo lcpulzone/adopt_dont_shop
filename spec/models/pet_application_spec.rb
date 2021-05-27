@@ -7,6 +7,9 @@ RSpec.describe PetApplication, type: :model do
   end
 
   context 'joining pets and applications' do
-    it 'can redirect to the application show page'
+    it 'can redirect to the application show page' do
+
+      
+    end
   end
 end

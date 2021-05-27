@@ -14,17 +14,25 @@
 
 <% if !@searched_pets.nil? then %>
   <% @searched_pets.each do |pet| %>
-    <%= pet.name %><%= button_to 'Adopt this Pet', "/applications/#{@application.id}", method: :post, local: true, params: {application: "#{@application.id}", pet: "#{pet.id}"} %>
+    <%= pet.name %><%= button_to 'Adopt this Pet', "/pet_applications", method: :post, local: true, params: {application: @application.id, pet: pet.id} %>
   <% end %>
 <% end %>
 
 <br>
 
-<h2>Why I would make a good home for a pet:</h2>
-<%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
-  <%= f.label :description %>
-  <br>
-  <%= f.text_area :description, size: '30x6' %>
-  <br>
-  <%= f.submit %>
+<% @pets.each do |pet| %>
+  <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+<% end %>
+
+<br>
+
+<% if @pets.length > 0 %>
+  <h2>Why I would make a good home for a pet:</h2>
+  <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
+    <%= f.label :description %>
+    <br>
+    <%= f.text_area :description, size: '30x6' %>
+    <br>
+    <%= f.submit %>
+  <% end %>
 <% end %>
