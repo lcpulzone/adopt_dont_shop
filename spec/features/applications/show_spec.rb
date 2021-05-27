@@ -47,11 +47,13 @@ RSpec.describe 'application show page' do
     end
 
     it 'shows a description of applicants ability to care for a pet' do
+      @application_1.pets << @pet_1
+      
       visit "/applications/#{@application_1.id}"
 
-      click_button 'Save'
+      click_button 'Submit Application'
 
-      expect(page).to have_button('Save')
+      expect(page).to have_button('Submit Application')
     end
   end
 end

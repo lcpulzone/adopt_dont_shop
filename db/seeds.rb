@@ -8,6 +8,7 @@
 
 # Need to have .destroy_all if I put things in here
 # It will destroy everything first so that I don't have two everything
+PetApplication.destroy_all
 Application.destroy_all
 Pet.destroy_all
 Shelter.destroy_all
