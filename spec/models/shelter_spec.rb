@@ -71,7 +71,6 @@ RSpec.describe Shelter, type: :model do
 
   context 'shelters in order' do
     it 'can list the shelters in reverse alphabetical order' do
-
       expect(Shelter.reverse_alpha).to eq([@shelter_2, @shelter_3, @shelter_1])
     end
   end
